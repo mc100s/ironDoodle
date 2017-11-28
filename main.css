@@ -1,0 +1,20 @@
+body {
+  text-align: center;
+  margin-top: 50px;
+}
+
+body button {
+  font-size: 20px;
+  background-color: black;
+  color: #fff;
+  padding: 10px 20px;
+  border: 0;
+  box-shadow: 0;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+
+canvas {
+  border: 1px solid black;
+}
