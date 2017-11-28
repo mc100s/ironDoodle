@@ -72,6 +72,8 @@ IronDoodleGame.prototype.startGame = function() {
   this.player = new Player(200, 250, "black", 10, 1, 1);
   this.platform1 = new Platform(150, 265, 100, 10, "black");
   this.platform2 = new Platform(150, 205, 100, 10, "black");
+  this.platforms.push(new Platform(150, 60, 100, 10, "black"))
+  this.platforms.push(new Platform(250, 0, 100, 10, "black"))
   this.platforms = [this.platform1, this.platform2];
 
 
@@ -80,10 +82,6 @@ IronDoodleGame.prototype.startGame = function() {
     that.player.nextMove(that.platforms);
     that.drawEverything();
     that.checkIfGameOver();
-
-    if (iFrame % 200 === 0) {
-      this.platforms.push(new Platform(Math.floor(Math.random()* 501), Math.floor(Math.random()*(this.platforms[(i - 1].y)- 10), 100, 10, "black"))
-    }
 
   }, intervalFrame);
 
