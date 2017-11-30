@@ -7,6 +7,7 @@ var height = 600;
 var bouncingForce = 0.025*height;
 var gravity = 0.001*height;
 var intervalFrame = 20;
+var midScreen = height / 4;
 
 //JOUEUR
 function Player(x, y, color, radius, vx, vy) {
@@ -39,12 +40,14 @@ function Player(x, y, color, radius, vx, vy) {
     }
     this.y += this.vy;
     this.vy += gravity;
-    this.vx *= 0.9;
+
     this.x += this.vx;
+    this.vx *= 0.9
+    this.vx = (this.vx)*(this.vx) < 0.1 ? 0: this.vx;
   }
 }
 
-//platformE
+//platform
 function Platform(x, y, width, height, color) {
   this.x = x;
   this.y = y;
@@ -91,27 +94,46 @@ IronDoodleGame.prototype.startGame = function() {
     that.player.nextMove(that.platforms);
     that.drawEverything();
     that.checkIfGameOver();
+
+    if (that.player.x > 400) {
+      that.player.x = 0;
+    }
+
+    else if (that.player.x < 0) {
+      that.player.x = 400;
+    }
+
+    var elevation = midScreen - that.player.getRefY();
+    console.log("COORD --> " + that.player.getRefY());
+    // if (that.player.getRefY() < midScreen) {
+    //
+    // }
+
+
   }, intervalFrame);
 
+
   this.player.vy = -bouncingForce;
+
 
   document.addEventListener('keydown', function (e) {
     const keyName = e.key;
     console.log('keydown event\n\n' + 'key: ' + keyName);
     switch (e.keyCode) {
       case 37:
-        that.player.vx -= 3;
+        that.player.vx -= 5;
         break;
       case 39:
-      that.player.vx += 3;
+      that.player.vx += 5;
         break;
     }
   });
+
+
 }
 
 //GAME OVER
 IronDoodleGame.prototype.checkIfGameOver = function() {
-  // console.log("Referenciel y --> ", this.player.getRefY());
   if (this.player.getRefY() >= 600) {
     console.log("Game Over !");
 
