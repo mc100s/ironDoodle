@@ -145,6 +145,19 @@ IronDoodleGame.prototype.startGame = function() {
     }
   });
 
+  document.getElementById("canvas").onclick = function(e) {
+    var offsetWidth = document.getElementById("canvas").offsetWidth;
+    // Move left
+    if (e.offsetX < offsetWidth/2) {
+      that.player.vx -= 5;
+    }
+    // Move right
+    else {
+      that.player.vx += 5;
+    }
+    console.log("click", e.offsetX)
+  };
+
 
 }
 
@@ -181,6 +194,8 @@ window.onload = function() {
   document.getElementById("start-button").onclick = function() {
     game.startGame();
   };
+
+
 }
 
 
