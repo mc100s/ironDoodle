@@ -1,13 +1,13 @@
 var ctx;
 var iFrame = 0;
 var game = new IronDoodleGame();
-var speed = 1;
+var speed = 1.1;
 var width = 400;
 var height = 600;
 var bouncingForce = 0.025*height;
 var gravity = 0.001*height;
 var intervalFrame = 20;
-var midScreen = height / 4;
+var midScreen = height / 5;
 
 //JOUEUR
 function Player(x, y, color, radius, vx, vy) {
@@ -18,6 +18,8 @@ function Player(x, y, color, radius, vx, vy) {
   this.vx = vx;
   this.vy = vy;
   this.getRefY = function() {
+    while (this.y + speed*iFrame < 100 + 3*this.radius)
+      iFrame += 1;
     return this.y + speed*iFrame;
   }
   this.draw = function() {
@@ -63,12 +65,34 @@ function Platform(x, y, width, height, color) {
   }
 }
 
+function Score(x, y, color) {
+  this.x = x;
+  this.y = y;
+  this.color = color;
+  this.draw = function() {
+    ctx.fillStyle = this.color;
+    ctx.font = '16px sans-serif';
+    ctx.fillText(Math.floor(iFrame), this.x, this.y);
+    }
+}
+
+function HeadBar(x, y, width, height, color) {
+  this.x = x;
+  this.y= y;
+  this.width = width;
+  this.height = height;
+  this.color = "color";
+  this.draw = function() {
+    ctx.fillStyle = "this.color";
+    ctx.fillRect(this.x, this.y, this.width, this.height);
+  }
+}
 
 
 
 //GAME
 function IronDoodleGame() {
-
+  this.draw
 }
 
 IronDoodleGame.prototype.startGame = function() {
@@ -81,6 +105,8 @@ IronDoodleGame.prototype.startGame = function() {
   this.platforms = [this.platform1, this.platform2];
   this.platforms.push(new Platform(150, 60, 100, 10, "black"))
   this.platforms.push(new Platform(250, 0, 100, 10, "black"))
+  this.score = new Score(20, 30, "white");
+  this.headBar = new HeadBar(0, 0, width, 45, "black");
 
   that = this
   plats.forEach(function (plt) {
@@ -103,17 +129,7 @@ IronDoodleGame.prototype.startGame = function() {
       that.player.x = 400;
     }
 
-    var elevation = midScreen - that.player.getRefY();
-    console.log("COORD --> " + that.player.getRefY());
-    // if (that.player.getRefY() < midScreen) {
-    //
-    // }
-
-
   }, intervalFrame);
-
-
-  this.player.vy = -bouncingForce;
 
 
   document.addEventListener('keydown', function (e) {
@@ -155,6 +171,9 @@ IronDoodleGame.prototype.drawEverything = function() {
   for (var i = 0; i < this.platforms.length; i++) {
     this.platforms[i].draw();
   }
+  this.headBar.draw();
+  this.score.draw();
+
 }
 
 
